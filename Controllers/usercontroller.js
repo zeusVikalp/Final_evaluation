@@ -68,8 +68,27 @@ async function Comments(req,res){
     }
   }
 
+  async function Login(req,res,next){
+    let details = req.body;
+    let userDetail = await UserModel.findOne({email:details.email});
+    if(userDetail){
+      let token = jwtService.generateToken(details);
+      res.json({
+       status: "Login Successful",
+       token: token
+      })
+    }else{
+      res.status(200).json({
+        status: "Failed",
+        message: "Your not registered with us"
+      });
+    }
+  }
+  
+
 module.exports = {
     Register,
     RegisterBook,
-    Comments
+    Comments,
+    Login
 }
