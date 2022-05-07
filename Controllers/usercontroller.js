@@ -1,5 +1,6 @@
 const userModel = require('../Models/user')
 const BookModel = require('../Models/book')
+const CommentModel = require('../Models/comment')
 
 async function Register(req,res){
     try {
@@ -47,7 +48,28 @@ async function RegisterBook(req,res){
     }
 }
 
+async function Comments(req,res){
+    try {
+      let details = req.body;
+      let userId = req.headers.userId;
+      let bookId = req.headers.bookId;
+      details.userId = mongoose.Types.ObjectId(userId);
+      details.bookId = mongoose.Types.ObjectId(bookId);
+      let response = await CommentModel.insertMany([details]);
+      console.log(result);
+      res.status(200).json({
+        status: "Success",
+        Result: result
+      })
+    } catch (error) {
+      res.status(400).json({
+        Error : error
+      })
+    }
+  }
+
 module.exports = {
     Register,
-    RegisterBook
+    RegisterBook,
+    Comments
 }

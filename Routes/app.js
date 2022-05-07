@@ -21,5 +21,5 @@ const upload = multer({
 
 app.post('/users',upload.array("proPic",5),userController.Register)
 app.post('/books',upload.single('cov_img'),userController.RegisterBook)
-
+app.post("/comments",userController.Comments);
 module.exports = app
